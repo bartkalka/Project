@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import simpledialog
-from scraper import scrape_jobs
-from api_client import get_company_info
+from scraper import scrape_books
 from utils import save_to_json
 
 def main():
@@ -10,20 +9,18 @@ def main():
     root.withdraw()  # Hide the main window
 
     # Get URL from user
-    url = simpledialog.askstring("Input", "Enter the URL of the job listings page:")
+    url = simpledialog.askstring("Input", "Enter the URL of the books page:")
 
     if url:
-        jobs = scrape_jobs(url)
+        try:
+            print(f"Scraping URL: {url}")
+            books = scrape_books(url)
+            print(f"Books scraped: {books}")
 
-        api_url = 'https://api.example.com/company-info'  # Example API for fetching company info
-
-        for job in jobs:
-            company_info = get_company_info(api_url, job['company'])
-            job['company_info'] = company_info
-
-        save_to_json(jobs, 'data/output.json')
-
-        print(f"Data saved to 'data/output.json'")
+            save_to_json(books, 'data/output.json')
+            print(f"Data saved to 'data/output.json'")
+        except Exception as e:
+            print(f"An error occurred: {e}")
     else:
         print("No URL provided.")
 

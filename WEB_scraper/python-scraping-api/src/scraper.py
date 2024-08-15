@@ -1,15 +1,14 @@
 import requests
 from bs4 import BeautifulSoup
 
-def scrape_jobs(url):
+def scrape_books(url):
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
 
-    jobs = []
-    for job_elem in soup.find_all('div', class_='job-listing'):
-        title = job_elem.find('h2').text.strip()
-        company = job_elem.find('div', class_='company').text.strip()
-        location = job_elem.find('div', class_='location').text.strip()
-        jobs.append({'title': title, 'company': company, 'location': location})
+    books = []
+    for book_elem in soup.find_all('article', class_='product_pod'):
+        title = book_elem.h3.a['title'].strip()
+        price = book_elem.find('p', class_='price_color').text.strip()
+        books.append({'title': title, 'price': price})
 
-    return jobs
+    return books
