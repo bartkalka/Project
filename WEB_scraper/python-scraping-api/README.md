@@ -40,11 +40,7 @@ cd WEB_scraper
 ```
 pip install -r requirements.txt
 ```
-## Usage
-To run the project:
-```
-python src/main.py
-```
+
 ## Project Structure:
 ```
 /WEB_scraper
@@ -183,6 +179,15 @@ cd E:\GIThub\Project\WEB_scraper\python-scraping-api.git
 pip install -r requirements.txt
 ```
 
-
+## Usage
+To run the project:
+```
+python src/main.py
+```
+INSERT THIS EXAMPLE URL:
+```
+http://books.toscrape.com
+```
+After the processing is complete, the data will be saved in the file `data/output.json` You can open this file to view the scraped data.
 
 
