@@ -68,18 +68,17 @@ In the `src` directory, create a `scraper.py` file with the following code:
 import requests
 from bs4 import BeautifulSoup
 
-def scrape_jobs(url):
+def scrape_books(url):
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
 
-    jobs = []
-    for job_elem in soup.find_all('div', class_='job-listing'):
-        title = job_elem.find('h2').text.strip()
-        company = job_elem.find('div', class_='company').text.strip()
-        location = job_elem.find('div', class_='location').text.strip()
-        jobs.append({'title': title, 'company': company, 'location': location})
+    books = []
+    for book_elem in soup.find_all('article', class_='product_pod'):
+        title = book_elem.h3.a['title'].strip()
+        price = book_elem.find('p', class_='price_color').text.strip()
+        books.append({'title': title, 'price': price})
 
-    return jobs
+    return books
 ```
 ### `src/api_client.py`
 
@@ -113,8 +112,7 @@ In the `src` directory, create a `main.py` file with the following code:
 ```python
 import tkinter as tk
 from tkinter import simpledialog
-from scraper import scrape_jobs
-from api_client import get_company_info
+from scraper import scrape_books
 from utils import save_to_json
 
 def main():
@@ -123,20 +121,18 @@ def main():
     root.withdraw()  # Hide the main window
 
     # Get URL from user
-    url = simpledialog.askstring("Input", "Enter the URL of the job listings page:")
+    url = simpledialog.askstring("Input", "Enter the URL of the books page:")
 
     if url:
-        jobs = scrape_jobs(url)
+        try:
+            print(f"Scraping URL: {url}")
+            books = scrape_books(url)
+            print(f"Books scraped: {books}")
 
-        api_url = 'https://api.example.com/company-info'  # Example API for fetching company info
-
-        for job in jobs:
-            company_info = get_company_info(api_url, job['company'])
-            job['company_info'] = company_info
-
-        save_to_json(jobs, 'data/output.json')
-
-        print(f"Data saved to 'data/output.json'")
+            save_to_json(books, 'data/output.json')
+            print(f"Data saved to 'data/output.json'")
+        except Exception as e:
+            print(f"An error occurred: {e}")
     else:
         print("No URL provided.")
 
