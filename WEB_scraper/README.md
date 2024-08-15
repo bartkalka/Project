@@ -14,5 +14,5 @@ This project demonstrates how to scrape data from websites using BeautifulSoup4 
 Clone the repository:
 
 ```bash
-git clone https://github.com/bartkalka/WEB scraping/
+git clone https://github.com/bartkalka/WEB_scraper
 cd WEB_scraper
