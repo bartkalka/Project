@@ -1,10 +1,15 @@
 import pyautogui
+pyautogui.FAILSAFE = False
 import time
 from pynput.mouse import Listener
+import keyboard  # import biblioteki do nasłuchiwania klawiatury
 
 # Parametry
 BEZCZYNNOSC_CZAS = 5  # czas (w sekundach) bez aktywności myszki przed automatycznym ruchem
-RUCH_DYSTANS = 50     # dystans (w pikselach) do przesunięcia w przypadku braku aktywności
+RUCH_DYSTANS = 10     # dystans (w pikselach) do przesunięcia w przypadku braku aktywności
+
+# Ustawienia fail-safe
+pyautogui.FAILSAFE = False
 
 # Zmienna globalna śledząca ostatni ruch myszy
 ostatni_ruch = time.time()
@@ -16,6 +21,9 @@ kierunek_y = RUCH_DYSTANS
 # Pobranie wymiarów ekranu
 szerokosc_ekranu, wysokosc_ekranu = pyautogui.size()
 
+# Flaga kontrolna do zatrzymania skryptu
+uruchomiony = True
+
 # Funkcja do rejestrowania ruchu myszy
 def on_move(x, y):
     global ostatni_ruch
@@ -23,8 +31,14 @@ def on_move(x, y):
 
 # Funkcja do automatycznego poruszania myszką, gdy nie było ruchu przez określony czas
 def automatyczny_ruch():
-    global ostatni_ruch, kierunek_x, kierunek_y
-    while True:
+    global ostatni_ruch, kierunek_x, kierunek_y, uruchomiony
+    while uruchomiony:
+        # Sprawdzenie, czy naciśnięto F12, aby zatrzymać skrypt
+        if keyboard.is_pressed("F12"):
+            uruchomiony = False
+            print("Skrypt zatrzymany przez F12.")
+            break
+
         czas_bezczynnosci = time.time() - ostatni_ruch
         if czas_bezczynnosci > BEZCZYNNOSC_CZAS:
             # Pobierz aktualną pozycję kursora
