@@ -4,7 +4,7 @@ from pynput.mouse import Listener
 
 # Parametry
 BEZCZYNNOSC_CZAS = 5  # czas (w sekundach) bez aktywności myszki przed automatycznym ruchem
-RUCH_DYSTANS = 10     # dystans (w pikselach) do przesunięcia w przypadku braku aktywności
+RUCH_DYSTANS = 100     # dystans (w pikselach) do przesunięcia w przypadku braku aktywności
 
 # Zmienna globalna śledząca ostatni ruch myszy
 ostatni_ruch = time.time()
