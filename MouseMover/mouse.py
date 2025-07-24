@@ -1,3 +1,4 @@
+
 import pyautogui
 pyautogui.FAILSAFE = False
 import time
@@ -6,7 +7,7 @@ import keyboard  # import biblioteki do nasłuchiwania klawiatury
 
 # Parametry
 BEZCZYNNOSC_CZAS = 5  # czas (w sekundach) bez aktywności myszki przed automatycznym ruchem
-RUCH_DYSTANS = 25     # dystans (w pikselach) do przesunięcia w przypadku braku aktywności
+RUCH_DYSTANS = 100     # dystans (w pikselach) do przesunięcia w przypadku braku aktywności
 
 # Ustawienia fail-safe
 pyautogui.FAILSAFE = False
